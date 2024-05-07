@@ -17,6 +17,7 @@ int adc_key_in = 0;
 
 bool motor_reverse = false;
 int motor_speed = 0;
+unsigned long keyTime = 0;
 
 int read_LCD_buttons()
 {
@@ -56,8 +57,6 @@ void printConfig()
   {
     lcd.print("UP");
   }
-
-  delay(150);
 }
 
 void setConfig(int btn)
@@ -109,14 +108,17 @@ void setup()
   lcd.clear();
   motor.setDeadtime(100);
   motor.setSpeed(0);
+  keyTime = millis();
 
   printConfig();
 }
 
 void loop()
 {
-  lcd_key = read_LCD_buttons();
-  setConfig(lcd_key);
-
-  delay(10);
+  if (keyTime + 100 < millis())
+  {
+    keyTime = read_LCD_buttons();
+    setConfig(lcd_key);
+    keyTime = millis();
+  }
 }
