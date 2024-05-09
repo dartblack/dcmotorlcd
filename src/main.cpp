@@ -117,7 +117,7 @@ void loop()
 {
   if (keyTime + 100 < millis())
   {
-    keyTime = read_LCD_buttons();
+    lcd_key = read_LCD_buttons();
     setConfig(lcd_key);
     keyTime = millis();
   }
